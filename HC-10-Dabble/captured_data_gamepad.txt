@@ -1,0 +1,17 @@
+Gamepad: UP
+Gamepad: UP
+Gamepad: UP
+Gamepad: UP
+Gamepad: UP
+Gamepad: DOWN
+Gamepad: DOWN
+Gamepad: DOWN
+Gamepad: LEFT
+Gamepad: LEFT
+Gamepad: LEFT
+Gamepad: LEFT
+Gamepad: LEFT
+Gamepad: RIGHT
+Gamepad: RIGHT
+Gamepad: RIGHT
+

@@ -1,0 +1,57 @@
+#define CUSTOM_SETTINGS
+#define INCLUDE_GAMEPAD_MODULE
+#define INCLUDE_TERMINAL_MODULE
+
+#include <Dabble.h>
+#include <SoftwareSerial.h>
+
+// Pins for HC-10
+const int BT_RX = 2;
+const int BT_TX = 3;
+
+void setup() {
+  Serial.begin(9600);
+  
+  // Note: RX and TX are switched in the function call compared to SoftwareSerial
+  Dabble.begin(9600, BT_RX, BT_TX); 
+  
+  Serial.println("Dabble Initialized. Ensure capitalization is 'GamePad'.");
+}
+
+void loop() {
+  Dabble.processInput(); 
+
+  // --- 1. GAMEPAD DIGITAL BUTTONS (Fixed to GamePad) ---
+  if (GamePad.isUpPressed()) Serial.println("Gamepad: UP");
+  if (GamePad.isDownPressed()) Serial.println("Gamepad: DOWN");
+  if (GamePad.isLeftPressed()) Serial.println("Gamepad: LEFT");
+  if (GamePad.isRightPressed()) Serial.println("Gamepad: RIGHT");
+  
+  if (GamePad.isSquarePressed()) Serial.println("Button: Square");
+  if (GamePad.isCirclePressed()) Serial.println("Button: Circle");
+  if (GamePad.isCrossPressed()) Serial.println("Button: Cross");
+  if (GamePad.isTrianglePressed()) Serial.println("Button: Triangle");
+
+  // --- 2. GAMEPAD ANALOG (Fixed to GamePad) ---
+  int angle = GamePad.getAngle();
+  int radius = GamePad.getRadius();
+  
+  if (radius > 0) {
+    Serial.print("Joystick Angle: ");
+    Serial.print(angle);
+    Serial.print(" | Radius: ");
+    Serial.println(radius);
+  }
+
+  // --- 3. TERMINAL MODULE ---
+  if (Terminal.available()) {
+    String data = "";
+    while (Terminal.available()) {
+      data += (char)Terminal.read();
+    }
+    Serial.print("Terminal Received: ");
+    Serial.println(data);
+  }
+
+  delay(20); 
+}

@@ -5,11 +5,11 @@
 #include <DHT.h>
 
 /* ---------- WIFI ---------- */
-const char* ssid = "Waheguru";
-const char* password = "Sekhon007";
+const char* ssid = "FILL"  // ----------------> change
+const char* password = "FILL"
 
 /* ---------- SERVER ---------- */
-const char* serverURL = "192.168.1.128/insert_data.php";
+const char* serverURL = "192.168.1.128/insert_data.php"; // --------- change
 const char* apiKey = "secret_esp8266_key";
 
 /* ---------- PINS ---------- */
@@ -81,3 +81,4 @@ void loop() {
 
   delay(10000); // send every 10 sec
 }
+
