@@ -5,11 +5,13 @@
 #include <DHT.h>
 
 /* ---------- WIFI ---------- */
-const char* ssid = "FILL"  // ----------------> change
-const char* password = "FILL"
+// ADDED semicolons below
+const char* ssid = "YOUR_WIFI_SSID";
+const char* password = "YOUR_WIFI_PASSWORD";
 
 /* ---------- SERVER ---------- */
-const char* serverURL = "192.168.1.128/insert_data.php"; // --------- change
+// ADDED "http://" prefix (Required for HTTPClient)
+const char* serverURL = "http://192.168.1.128/insert_data.php";
 const char* apiKey = "secret_esp8266_key";
 
 /* ---------- PINS ---------- */
@@ -24,10 +26,11 @@ void setup() {
   Serial.begin(9600);
   delay(1000);
 
+  // SDA connected to D2, SCL connected to D1
   Wire.begin(D2, D1);
 
   if (!bmp.begin(0x76)) {
-    Serial.println("BMP280 error");
+    Serial.println("BMP280 error: Check wiring or I2C address (try 0x77)");
     while (1);
   }
 
@@ -53,14 +56,16 @@ void loop() {
     float bmpTemp = bmp.readTemperature();
     float pressure = bmp.readPressure() / 100.0;
 
+    // Check if DHT reading failed
     if (isnan(dhtTemp) || isnan(humidity)) {
       Serial.println("DHT read error");
-      return;
+      return; 
     }
 
     WiFiClient client;
     HTTPClient http;
 
+    // Begin HTTP connection
     http.begin(client, serverURL);
     http.addHeader("Content-Type", "application/x-www-form-urlencoded");
 
@@ -77,8 +82,9 @@ void loop() {
     Serial.println(httpResponseCode);
 
     http.end();
+  } else {
+    Serial.println("WiFi Disconnected");
   }
 
   delay(10000); // send every 10 sec
 }
-
